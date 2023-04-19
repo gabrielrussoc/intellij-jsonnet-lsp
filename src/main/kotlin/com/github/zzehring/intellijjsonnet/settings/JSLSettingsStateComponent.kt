@@ -29,6 +29,6 @@ open class JLSSettingsStateComponent : PersistentStateComponent<JLSSettingsState
     }
 
     class SettingsState {
-        var releaseRepository = "grafana/jsonnet-language-server"
+        var releaseRepository = "carlverge/jsonnet-lsp"
     }
 }

@@ -51,7 +51,9 @@
                   implementationClass="com.github.zzehring.intellijjsonnet.JsonnetFileType"
                   fieldName="INSTANCE"
                   language="Jsonnet"
-                  extensions="jsonnet;libsonnet"/>
+                  extensions="jsonnet;libsonnet"
+                  patterns="*.jsonnet.TEMPLATE"
+        />
         <lang.parserDefinition language="Jsonnet"
                                implementationClass="com.github.zzehring.intellijjsonnet.JsonnetParserDefinition"/>
         <lang.syntaxHighlighterFactory language="Jsonnet"

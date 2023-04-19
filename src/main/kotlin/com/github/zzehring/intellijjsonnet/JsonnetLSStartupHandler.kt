@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.io.path.Path
 import kotlin.io.path.setPosixFilePermissions
 
-const val EXTENSIONS = "jsonnet,libsonnet"
+const val EXTENSIONS = "jsonnet,libsonnet,jsonnet.TEMPLATE"
 
 data class TargetReleaseInfo(val tag: String, val downloadUrl: String)
 
@@ -68,7 +68,7 @@ class JsonnetLSStartupHandler {
         val repoInfo = getLatestReleaseInfo(httpClient, releaseURL, platform, arch)
         log.info("Latest tag: ${repoInfo.tag} ; Download URL: ${repoInfo.downloadUrl}")
 
-        val binFile = File(PathManager.getPluginsPath().plus("/Jsonnet Language Server/jsonnet-language-server"))
+        val binFile = File(PathManager.getPluginsPath().plus("/Jsonnet Language Server/jsonnet-lsp"))
 
         // Check if LS binary already exists. If it does and the latest release is a higher version, prompt user to update
         // If binary doesn't exist, download latest
@@ -81,12 +81,10 @@ class JsonnetLSStartupHandler {
         setExecutablePerms(binFile)
 
         // Configure language server
-        // TODO: Make --tanka configurable
-        // TODO: add JPath configuration
         IntellijLanguageClient.addServerDefinition(
             RawCommandServerDefinition(
                 EXTENSIONS,
-                arrayOf(binFile.toString(), "--tanka", "--lint")
+                arrayOf(binFile.toString(), "lsp")
             )
         )
     }
@@ -113,7 +111,7 @@ class JsonnetLSStartupHandler {
         val project = ProjectManager.getInstance().defaultProject
         Notification(
             "lsp",
-            "New jsonnet-language-server version (${repoInfo.tag}) available. Would you like to update?",
+            "New jsonnet-lsp version (${repoInfo.tag}) available. Would you like to update?",
             NotificationType.IDE_UPDATE
         )
             .addAction(NotificationAction.createSimpleExpiring("Update") { download(httpClient, binFile, repoInfo) })
@@ -186,7 +184,7 @@ class JsonnetLSStartupHandler {
             val project = ProjectManager.getInstance().defaultProject
             Notification(
                 "lsp",
-                "Language Server jsonnet-language-server (version ${repoInfo.tag}) downloaded",
+                "Language Server jsonnet-lsp (version ${repoInfo.tag}) downloaded",
                 NotificationType.IDE_UPDATE
             )
                 .notify(project)
