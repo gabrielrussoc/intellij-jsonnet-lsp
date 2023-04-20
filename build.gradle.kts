@@ -38,7 +38,8 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:2.2.1")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.1")
     implementation("org.jetbrains.kotlin:kotlin-native-utils:1.6.10")
-    implementation("com.github.ballerina-platform:lsp4intellij:8ee2b55267da684fb55d2866ad3293e8a0a21977")
+    implementation("com.github.ballerina-platform:lsp4intellij:0.95.1")
+    implementation("commons-io:commons-io:2.11.0")
 }
 
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin

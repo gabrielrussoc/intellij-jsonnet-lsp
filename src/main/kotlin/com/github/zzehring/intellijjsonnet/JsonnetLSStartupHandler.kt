@@ -11,17 +11,16 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.ProjectManager
 import com.intellij.util.system.CpuArch
 import com.intellij.util.text.SemVer
-import io.ktor.client.HttpClient
+import io.ktor.client.*
 import io.ktor.client.call.*
-import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.wso2.lsp4intellij.IntellijLanguageClient
-import org.wso2.lsp4intellij.client.languageserver.serverdefinition.RawCommandServerDefinition
 import org.wso2.lsp4intellij.listeners.LSPProjectManagerListener
 import org.wso2.lsp4intellij.utils.FileUtils
 import java.io.File
@@ -82,7 +81,7 @@ class JsonnetLSStartupHandler {
 
         // Configure language server
         IntellijLanguageClient.addServerDefinition(
-            RawCommandServerDefinition(
+            JsonnetLanguageServer(
                 EXTENSIONS,
                 arrayOf(binFile.toString(), "lsp")
             )
