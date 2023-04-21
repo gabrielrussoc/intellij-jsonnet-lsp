@@ -65,7 +65,6 @@
         <lang.foldingBuilder language="Jsonnet"
                              implementationClass="com.github.zzehring.intellijjsonnet.JsonnetFoldingBuilder"/>
         <lang.braceMatcher language="Jsonnet" implementationClass="com.github.zzehring.intellijjsonnet.JsonnetBraceMatcher"/>
-        <formattingService implementation="com.github.zzehring.intellijjsonnet.JsonnetExternalFormatter"/>
         <lang.commenter
                 language="Jsonnet"
                 implementationClass="com.github.zzehring.intellijjsonnet.SimpleCommenter"/>
@@ -88,5 +87,11 @@
         <action class="org.wso2.lsp4intellij.actions.LSPReferencesAction" id="LSPFindUsages">
             <keyboard-shortcut first-keystroke="shift alt F7" keymap="$default"/>
         </action>
+
+        <!-- needed for reformatting -->
+        <action class="org.wso2.lsp4intellij.actions.LSPReformatAction" id="ReformatCode" use-shortcut-of="ReformatCode"
+                text="Reformat Code"/>
+        <action class="org.wso2.lsp4intellij.actions.LSPShowReformatDialogAction" id="ShowReformatFileDialog"
+                use-shortcut-of="ShowReformatFileDialog" text="Show Reformat File Dialog"/>
     </actions>
 </idea-plugin>

@@ -38,7 +38,7 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:2.2.1")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.1")
     implementation("org.jetbrains.kotlin:kotlin-native-utils:1.6.10")
-    implementation("com.github.ballerina-platform:lsp4intellij:0.95.1")
+    implementation("com.github.gabrielrussoc:lsp4intellij:87e88ba")
     implementation("commons-io:commons-io:2.11.0")
 }
 
