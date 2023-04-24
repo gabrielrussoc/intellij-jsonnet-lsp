@@ -17,6 +17,8 @@ plugins {
     id("org.jetbrains.qodana") version "0.1.13"
     // Kotlin Serializer Plugin
     id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
+    // Download plugin
+    id("de.undercouch.download") version "5.4.0"
 }
 
 group = properties("pluginGroup")
@@ -65,6 +67,14 @@ qodana {
     saveReport.set(true)
     showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
 }
+
+val jsonnetLspVersion=properties("jsonnetLspVersion")
+val platforms = listOf("darwin_amd64", "darwin_arm64", "linux_amd64", "linux_arm64")
+val lspUrls = platforms.map {
+    "https://github.com/carlverge/jsonnet-lsp/releases/download/v$jsonnetLspVersion/jsonnet-lsp_${jsonnetLspVersion}_$it"
+}
+val checksumsUrl = "https://github.com/carlverge/jsonnet-lsp/releases/download/v$jsonnetLspVersion/jsonnet-lsp_${jsonnetLspVersion}_checksums.txt"
+val lspOutputDir = File(buildDir, "jsonnet-lsp_$jsonnetLspVersion")
 
 tasks {
     // Set the JVM compatibility versions
@@ -134,6 +144,31 @@ tasks {
         // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
         channels.set(listOf(properties("pluginVersion").split('-').getOrElse(1) { "default" }.split('.').first()))
+    }
+
+    register("downloadLsp") {
+        doLast {
+            download.run {
+                src(lspUrls + checksumsUrl)
+                dest(lspOutputDir)
+                onlyIfNewer(true)
+            }
+            File(lspOutputDir, "jsonnet-lsp_${jsonnetLspVersion}_checksums.txt").forEachLine {
+                val parts = it.split("  ")
+                val binary = File(lspOutputDir, parts[1])
+                val sha256 = parts[0]
+                verifyChecksum.run {
+                    src(binary)
+                    checksum(sha256)
+                    algorithm("SHA256")
+                }
+            }
+        }
+    }
+
+    buildPlugin {
+        dependsOn("downloadLsp")
+        from(lspOutputDir) { into("bin/") }
     }
 }
 
