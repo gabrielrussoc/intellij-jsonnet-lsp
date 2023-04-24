@@ -89,9 +89,10 @@
         </action>
 
         <!-- needed for reformatting -->
+        <!--  overrides="true" is undocumented -->
         <action class="org.wso2.lsp4intellij.actions.LSPReformatAction" id="ReformatCode" use-shortcut-of="ReformatCode"
-                text="Reformat Code"/>
+                text="Reformat Code" overrides="true"/>
         <action class="org.wso2.lsp4intellij.actions.LSPShowReformatDialogAction" id="ShowReformatFileDialog"
-                use-shortcut-of="ShowReformatFileDialog" text="Show Reformat File Dialog"/>
+                use-shortcut-of="ShowReformatFileDialog" text="Show Reformat File Dialog" overrides="true"/>
     </actions>
 </idea-plugin>
