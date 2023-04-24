@@ -166,9 +166,9 @@ tasks {
         }
     }
 
-    buildPlugin {
+    withType<org.jetbrains.intellij.tasks.PrepareSandboxTask> {
         dependsOn("downloadLsp")
-        from(lspOutputDir) { into("bin/") }
+        from(lspOutputDir) { into("${pluginName.get()}/bin") }
     }
 }
 
