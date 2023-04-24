@@ -1,5 +1,7 @@
 package com.databricks.intellijjsonnet
 
+import com.databricks.intellijjsonnet.settings.JLSSettingsConfigurable
+import com.databricks.intellijjsonnet.settings.JLSSettingsStateComponent
 import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.diagnostic.Logger
@@ -30,10 +32,17 @@ class JsonnetLSStartupHandler {
 
         log.info("Running on -> platform: $platform ; arch: $arch")
 
-        val pluginName = PluginManagerCore.getPlugin(PluginId.getId(pluginId))?.name
-        val binDir = File(PathManager.getPluginsPath().plus("/$pluginName/bin/"))
-        val binFile  = getLspBinaryFor(binDir, platform, arch)
-        setExecutablePerms(binFile)
+        val customLspBinary = JLSSettingsStateComponent.instance.state.customLspBinary
+        val binFile = if (customLspBinary.isNotEmpty()) {
+            log.info("Using custom LSP binary at $customLspBinary")
+            customLspBinary
+        } else {
+            val pluginName = PluginManagerCore.getPlugin(PluginId.getId(pluginId))?.name
+            val binDir = File(PathManager.getPluginsPath().plus("/$pluginName/bin/"))
+            val binFile  = getLspBinaryFor(binDir, platform, arch)
+            setExecutablePerms(binFile)
+            binFile
+        }
 
         // Configure language server
         IntellijLanguageClient.addServerDefinition(

@@ -12,26 +12,36 @@ import javax.swing.JPanel
  */
 class JLSSettingsComponent {
     var myMainPanel: JPanel
-    private val releaseRepository = JBTextField()
+    private val customLspBinary = JBTextField()
+    private val debugRpcCalls = JBTextField()
 
     init {
         this.myMainPanel = FormBuilder.createFormBuilder()
-            .addLabeledComponent(JBLabel("Release Repo (Github Repository from which to download language server): "), releaseRepository, 1, true)
+            .addLabeledComponent(JBLabel("Absolute path to custom Jsonnet LSP binary (requires restart): "), customLspBinary, 1, true)
+            .addLabeledComponent(JBLabel("Absolute path to directory to log LSP json RPC calls (requires restart): "), debugRpcCalls, 1, true)
             .addComponentFillVertically(JPanel(), 0)
             .panel
     }
 
     fun getPreferredFocusedComponent(): JComponent {
-        return releaseRepository
+        return customLspBinary
     }
 
     @NotNull
-    fun getReleaseRepository(): String {
-        return releaseRepository.text
+    fun getCustomLspBinary(): String {
+        return customLspBinary.text
     }
 
-    fun setReleaseRepository(newPath: String) {
-        releaseRepository.text = newPath
+    fun setCustomLspBinary(newPath: String) {
+        customLspBinary.text = newPath
+    }
+
+    fun getDebugRpcCalls(): String {
+        return debugRpcCalls.text
+    }
+
+    fun setDebugRpcCalls(newDir: String) {
+        debugRpcCalls.text = newDir
     }
 
 }

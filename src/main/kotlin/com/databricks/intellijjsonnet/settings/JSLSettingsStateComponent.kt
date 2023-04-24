@@ -29,7 +29,7 @@ open class JLSSettingsStateComponent : PersistentStateComponent<JLSSettingsState
     }
 
     class SettingsState {
-        var releaseRepository = "carlverge/jsonnet-lsp"
-        val debugRpc = true
+        var customLspBinary = ""
+        var debugRpcCalls = ""
     }
 }

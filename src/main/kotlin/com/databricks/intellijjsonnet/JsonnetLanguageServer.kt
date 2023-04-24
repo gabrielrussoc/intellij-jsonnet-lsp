@@ -14,15 +14,17 @@ class JsonnetLanguageServer(ext: String, command: Array<String>) : RawCommandSer
 
     override fun createConnectionProvider(workingDir: String?): StreamConnectionProvider {
         val realStreamConnectionProvider = ProcessStreamConnectionProvider(listOf(*command), workingDir)
-        if (JLSSettingsStateComponent.instance.state.debugRpc) {
-            val debugStdinFileName = "./jsonnet-lsp.stdin.log"
-            val debugStdinFile = File(debugStdinFileName)
+        val debugRpcCalls = JLSSettingsStateComponent.instance.state.debugRpcCalls
+        if (debugRpcCalls.isNotEmpty()) {
+            File(debugRpcCalls).mkdirs()
+            val debugStdinFileName = "./jsonnet-lsp.client.log"
+            val debugStdinFile = File(debugRpcCalls, debugStdinFileName)
             logger.info("Writing CLIENT (intellij) logs to " + debugStdinFile.canonicalPath)
 
-            val debugStdoutFileName = "./jsonnet-lsp.stdout.log"
-            val debugStdoutFile = File(debugStdoutFileName)
+            val debugStdoutFileName = "./jsonnet-lsp.server.log"
+            val debugStdoutFile = File(debugRpcCalls, debugStdoutFileName)
             logger.info("Writing SERVER (jsonnet-lsp) logs to " + debugStdoutFile.canonicalPath)
-            return com.databricks.intellijjsonnet.TeeStreamConnectionProvider(realStreamConnectionProvider, FileOutputStream(debugStdinFile, true), FileOutputStream(debugStdoutFile, true))
+            return TeeStreamConnectionProvider(realStreamConnectionProvider, FileOutputStream(debugStdinFile, true), FileOutputStream(debugStdoutFile, true))
         }
         return realStreamConnectionProvider
     }

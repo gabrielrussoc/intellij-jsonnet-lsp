@@ -17,12 +17,14 @@ class JLSSettingsConfigurable : Configurable {
 
     override fun isModified(): Boolean {
         val settings = JLSSettingsStateComponent.instance.state
-        return mySettingsComponent.getReleaseRepository() != settings.releaseRepository
+        return mySettingsComponent.getDebugRpcCalls() != settings.debugRpcCalls
+            || mySettingsComponent.getCustomLspBinary() != settings.customLspBinary
     }
 
     override fun apply() {
         val settings = JLSSettingsStateComponent.instance.state
-        settings.releaseRepository = mySettingsComponent.getReleaseRepository()
+        settings.customLspBinary = mySettingsComponent.getCustomLspBinary()
+        settings.debugRpcCalls = mySettingsComponent.getDebugRpcCalls()
     }
 
     @Nls(capitalization = Nls.Capitalization.Title)
@@ -36,7 +38,8 @@ class JLSSettingsConfigurable : Configurable {
 
     override fun reset() {
         val settings = JLSSettingsStateComponent.instance.state
-        mySettingsComponent.setReleaseRepository(settings.releaseRepository)
+        mySettingsComponent.setCustomLspBinary(settings.customLspBinary)
+        mySettingsComponent.setDebugRpcCalls(settings.debugRpcCalls)
     }
 
 }
