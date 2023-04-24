@@ -40,7 +40,9 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:2.2.1")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.1")
     implementation("org.jetbrains.kotlin:kotlin-native-utils:1.6.10")
-    implementation("com.github.gabrielrussoc:lsp4intellij:87e88ba")
+    // Pointing to a fork while we wait
+    // https://github.com/ballerina-platform/lsp4intellij/pull/309 to be merged
+    implementation("com.github.gabrielrussoc:lsp4intellij:cd709e3")
     implementation("commons-io:commons-io:2.11.0")
 }
 
