@@ -1,16 +1,16 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin require-restart="true">
-    <id>com.github.zzehring.intellijjsonnet</id>
+    <id>com.databricks.intellijjsonnet</id>
     <name>Jsonnet Language Server</name>
-    <vendor>zzehring</vendor>
+    <vendor>databricks</vendor>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- register a preloading activity. You need to init IntellijLanguageClient with your config, see readme -->
-        <backgroundPostStartupActivity implementation="com.github.zzehring.intellijjsonnet.JsonnetLSBackgroundStartupActivity"
-                                       id="com.github.zzehring.intellijjsonnet.JsonnetLSBackgroundStartupActivity"/>
+        <backgroundPostStartupActivity implementation="com.databricks.intellijjsonnet.JsonnetLSBackgroundStartupActivity"
+                                       id="com.databricks.intellijjsonnet.JsonnetLSBackgroundStartupActivity"/>
 
         <!-- register intellijLanguageClient as a Service OR as a plugin component (see readme)... -->
         <applicationService serviceImplementation="org.wso2.lsp4intellij.IntellijLanguageClient"/>
@@ -47,27 +47,27 @@
         <renamePsiElementProcessor implementation="org.wso2.lsp4intellij.contributors.rename.LSPRenameProcessor" id="LSPRenameProcessor" order="first"/>
         
         <!-- custom settings for configuring Language Server -->
-        <applicationService serviceImplementation="com.github.zzehring.intellijjsonnet.settings.JLSSettingsStateComponent"/>
-        <applicationConfigurable parentId="tools" instance="com.github.zzehring.intellijjsonnet.settings.JLSSettingsConfigurable"/>
+        <applicationService serviceImplementation="com.databricks.intellijjsonnet.settings.JLSSettingsStateComponent"/>
+        <applicationConfigurable parentId="tools" instance="com.databricks.intellijjsonnet.settings.JLSSettingsConfigurable"/>
 
         <!-- custom language stuff and things -->
         <fileType name="Jsonnet File"
-                  implementationClass="com.github.zzehring.intellijjsonnet.JsonnetFileType"
+                  implementationClass="com.databricks.intellijjsonnet.JsonnetFileType"
                   fieldName="INSTANCE"
                   language="Jsonnet"
                   extensions="jsonnet;libsonnet"
                   patterns="*.jsonnet.TEMPLATE"
         />
         <lang.parserDefinition language="Jsonnet"
-                               implementationClass="com.github.zzehring.intellijjsonnet.JsonnetParserDefinition"/>
+                               implementationClass="com.databricks.intellijjsonnet.JsonnetParserDefinition"/>
         <lang.syntaxHighlighterFactory language="Jsonnet"
-                                       implementationClass="com.github.zzehring.intellijjsonnet.JsonnetSyntaxHighlighterFactory"/>
+                                       implementationClass="com.databricks.intellijjsonnet.JsonnetSyntaxHighlighterFactory"/>
         <lang.foldingBuilder language="Jsonnet"
-                             implementationClass="com.github.zzehring.intellijjsonnet.JsonnetFoldingBuilder"/>
-        <lang.braceMatcher language="Jsonnet" implementationClass="com.github.zzehring.intellijjsonnet.JsonnetBraceMatcher"/>
+                             implementationClass="com.databricks.intellijjsonnet.JsonnetFoldingBuilder"/>
+        <lang.braceMatcher language="Jsonnet" implementationClass="com.databricks.intellijjsonnet.JsonnetBraceMatcher"/>
         <lang.commenter
                 language="Jsonnet"
-                implementationClass="com.github.zzehring.intellijjsonnet.SimpleCommenter"/>
+                implementationClass="com.databricks.intellijjsonnet.SimpleCommenter"/>
     </extensions>
 
     <applicationListeners>
