@@ -42,7 +42,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-native-utils:1.6.10")
     // Pointing to a fork while we wait
     // https://github.com/ballerina-platform/lsp4intellij/pull/309 to be merged
-    implementation("com.github.gabrielrussoc:lsp4intellij:cd709e3")
+    implementation("com.github.gabrielrussoc:lsp4intellij:4e2a2ff")
     implementation("commons-io:commons-io:2.11.0")
 }
 
@@ -71,11 +71,13 @@ qodana {
 }
 
 val jsonnetLspVersion=properties("jsonnetLspVersion")
+// Using gabrielrussoc repo while we wait for https://github.com/carlverge/jsonnet-lsp/pull/8 to merge
+val githubReleasesUrl = "https://github.com/gabrielrussoc/jsonnet-lsp/releases/download"
 val platforms = listOf("darwin_amd64", "darwin_arm64", "linux_amd64", "linux_arm64")
 val lspUrls = platforms.map {
-    "https://github.com/carlverge/jsonnet-lsp/releases/download/v$jsonnetLspVersion/jsonnet-lsp_${jsonnetLspVersion}_$it"
+    "$githubReleasesUrl/v$jsonnetLspVersion/jsonnet-lsp_${jsonnetLspVersion}_$it"
 }
-val checksumsUrl = "https://github.com/carlverge/jsonnet-lsp/releases/download/v$jsonnetLspVersion/jsonnet-lsp_${jsonnetLspVersion}_checksums.txt"
+val checksumsUrl = "$githubReleasesUrl/v$jsonnetLspVersion/jsonnet-lsp_${jsonnetLspVersion}_checksums.txt"
 val lspOutputDir = File(buildDir, "jsonnet-lsp_$jsonnetLspVersion")
 
 tasks {
